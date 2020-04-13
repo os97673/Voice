@@ -20,8 +20,8 @@ android {
     minSdkVersion(Versions.minSdk)
     targetSdkVersion(Versions.targetSdk)
 
-    versionCode = Versions.versionCode
-    versionName = Versions.versionName
+    versionCode = property("voiceVersionCode").toString().toInt()
+    versionName = property("voiceVersionName").toString()
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

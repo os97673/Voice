@@ -2,7 +2,6 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryPlugin
 import deps.Deps
-import deps.Versions
 import deps.configureBaseRepos
 
 @Suppress("RemoveRedundantQualifierName")
@@ -68,13 +67,6 @@ tasks {
     args("-c", "tx pull -af --minimum-perc=5")
     finalizedBy(":core:lintDebug")
   }
-
-  register("appVersion") {
-    doLast {
-      print("#BEGIN_VERSION#${Versions.versionName}#END_VERSION#")
-    }
-  }
-
   register<TestReport>("allUnitTests") {
     val tests = subprojects.mapNotNull { subProject ->
       (subProject.tasks.findByName("testProprietaryDebugUnitTest")
