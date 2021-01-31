@@ -148,4 +148,5 @@ private val BookComparator.menuId: Int
     BookComparator.BY_LAST_PLAYED -> R.id.byLastPlayed
     BookComparator.BY_NAME -> R.id.byName
     BookComparator.BY_DATE_ADDED -> R.id.byAdded
+    BookComparator.BY_DATE_AUTHOR_AND_NAME -> R.id.byAuthorAndName
   }

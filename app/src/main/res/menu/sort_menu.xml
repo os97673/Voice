@@ -8,6 +8,10 @@
             android:title="@string/book_category_sort_by_name" />
 
         <item
+            android:id="@+id/byAuthorAndName"
+            android:title="@string/book_category_sort_by_author_and_name" />
+
+        <item
             android:id="@+id/byLastPlayed"
             android:title="@string/book_category_sort_by_last_played" />
 
