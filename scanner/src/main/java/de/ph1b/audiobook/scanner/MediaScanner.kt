@@ -101,7 +101,7 @@ class MediaScanner
       }
     }
 
-    val collectionBooks = collectionBookFiles
+    val collectionBooks = collectionBookFiles()
     for (f in collectionBooks) {
       if (f.isFile && f.canRead()) {
         checkBook(f, Book.Type.COLLECTION_FILE)
@@ -116,15 +116,31 @@ class MediaScanner
       .map(::File)
       .sortedWith(NaturalOrderComparator.fileComparator)
 
-  private val collectionBookFiles: List<File>
-    get() = collectionBookFolderPref.value
-      .map(::File)
-      .flatMap { it.listFiles(FileRecognition.folderAndMusicFilter)?.toList() ?: emptyList() }
-      .sortedWith(NaturalOrderComparator.fileComparator)
+  private fun collectionBookFiles(): List<File> {
+    return collectionBookFolderPref.value.map(::File).flatMap {
+      listFilesForBooks(it)
+    }.sortedWith(NaturalOrderComparator.fileComparator)
+  }
+
+  private fun listFilesForBooks(file: File): List<File> {
+    return when {
+      file.isFile -> {
+        listOf(file)
+      }
+      file.listFilesSafely(FileRecognition.folderAndMusicFilter).isNotEmpty() -> {
+        listOf(file)
+      }
+      else -> {
+        file.listFilesSafely(FileRecognition.folderAndMusicFilter).flatMap {
+          listFilesForBooks(it)
+        }
+      }
+    }
+  }
 
   private suspend fun deleteOldBooks() {
     val singleBookFiles = singleBookFiles
-    val collectionBookFolders = collectionBookFiles
+    val collectionBookFolders = collectionBookFiles()
 
     // getting books to remove
     val booksToRemove = ArrayList<Book>(20)
